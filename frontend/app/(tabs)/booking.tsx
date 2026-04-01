@@ -33,19 +33,6 @@ export default function Booking() {
 
   return (
     <AppScreen bottomOffset={34} contentContainerStyle={styles.content}>
-      <LinearGradient
-        colors={["#007FFF", "#2A52BE"]}
-        start={{ x: 0.1, y: 0 }}
-        end={{ x: 0.9, y: 1 }}
-        style={styles.hero}
-      >
-        <View style={styles.heroBadge}>
-          <MaterialIcons name="sports-tennis" size={22} color="#FFFFFF" />
-        </View>
-        <Text style={styles.heroTitle}>Booking Center</Text>
-        <Text style={styles.heroSubtitle}>Choose what you want to book.</Text>
-      </LinearGradient>
-
       <View style={styles.grid}>
         {cards.map((card) => {
           return (
@@ -81,35 +68,9 @@ export default function Booking() {
 
 const styles = StyleSheet.create({
   content: {
-    paddingTop: 10,
-  },
-  hero: {
-    borderRadius: 28,
-    padding: 22,
-  },
-  heroBadge: {
-    width: 54,
-    height: 54,
-    borderRadius: 18,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgba(255,255,255,0.1)",
-    marginBottom: 20,
-  },
-  heroTitle: {
-    color: "#FFFFFF",
-    fontSize: 28,
-    fontFamily: "Poppins_700Bold",
-  },
-  heroSubtitle: {
-    color: "rgba(255,255,255,0.74)",
-    fontSize: 14,
-    lineHeight: 22,
-    marginTop: 8,
-    maxWidth: 300,
+    paddingTop: 24,
   },
   grid: {
-    marginTop: 22,
     gap: 14,
   },
   gradientCardWrap: {
