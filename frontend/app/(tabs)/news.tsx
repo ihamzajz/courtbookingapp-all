@@ -16,6 +16,7 @@ import TopHeaderBox from "../../components/TopHeaderBox";
 import { NEWS_API, NEWS_IMAGES_BASE } from "../../src/config/api";
 import useLiveRefresh from "../../src/hooks/useLiveRefresh";
 import useRealtimeSubscription from "../../src/hooks/useRealtimeSubscription";
+import { buildUploadAssetUrl } from "../../src/utils/media";
 
 const palette = {
   bg: "#F4F8FF",
@@ -26,14 +27,7 @@ const palette = {
   navy: "#2B2D42",
 };
 
-const buildNewsImageUrl = (picture) => {
-  if (!picture) return null;
-  if (/^https?:\/\//i.test(picture)) return picture;
-
-  const normalizedBase = NEWS_IMAGES_BASE.replace(/\/+$/, "");
-  const normalizedPicture = String(picture).replace(/^\/+/, "");
-  return `${normalizedBase}/${normalizedPicture}`;
-};
+const buildNewsImageUrl = (picture) => buildUploadAssetUrl(NEWS_IMAGES_BASE, picture, "news");
 
 const getExcerpt = (content) => {
   const value = String(content || "").trim();

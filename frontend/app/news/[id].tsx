@@ -4,6 +4,7 @@ import { router, useLocalSearchParams } from "expo-router";
 
 import AppScreen from "../../components/AppScreen";
 import { NEWS_API, NEWS_IMAGES_BASE } from "../../src/config/api";
+import { buildUploadAssetUrl } from "../../src/utils/media";
 
 const palette = {
   card: "#FFFFFF",
@@ -13,14 +14,7 @@ const palette = {
   navy: "#2B2D42",
 };
 
-const buildNewsImageUrl = (picture) => {
-  if (!picture) return null;
-  if (/^https?:\/\//i.test(picture)) return picture;
-
-  const normalizedBase = NEWS_IMAGES_BASE.replace(/\/+$/, "");
-  const normalizedPicture = String(picture).replace(/^\/+/, "");
-  return `${normalizedBase}/${normalizedPicture}`;
-};
+const buildNewsImageUrl = (picture) => buildUploadAssetUrl(NEWS_IMAGES_BASE, picture, "news");
 
 export default function NewsDetail() {
   const { id } = useLocalSearchParams();

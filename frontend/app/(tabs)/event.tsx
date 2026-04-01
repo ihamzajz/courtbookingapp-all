@@ -23,6 +23,7 @@ import { API_BASE, EVENT_BOOKINGS_API, EVENT_IMAGES_BASE } from "../../src/confi
 import useLiveRefresh from "../../src/hooks/useLiveRefresh";
 import useRealtimeSubscription from "../../src/hooks/useRealtimeSubscription";
 import { clearStoredUser, getStoredUser } from "../../src/utils/auth";
+import { buildUploadAssetUrl } from "../../src/utils/media";
 
 const palette = {
   bg: "#F5F7FC",
@@ -33,6 +34,8 @@ const palette = {
   navy: "#2B2D42",
   royal: "#2B2D42",
 };
+
+const buildEventImageUrl = (picture) => buildUploadAssetUrl(EVENT_IMAGES_BASE, picture, "events");
 
 const durations = [30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360, 390, 420];
 const DATE_CHIP_WIDTH = 66;
@@ -436,7 +439,7 @@ export default function EventBooking() {
         <View style={styles.courtGrid}>
           {filteredVenues.map((venue, index) => {
             const imageSource = venue.picture
-              ? { uri: `${EVENT_IMAGES_BASE}${venue.picture}` }
+              ? { uri: buildEventImageUrl(venue.picture) }
               : require("../../assets/images/icon.png");
 
             return (
@@ -493,7 +496,7 @@ export default function EventBooking() {
   const renderVenueDetail = () => {
     const selectedDateLabel = formatDateLabel(selectedDate);
     const heroImage = selectedVenue?.picture
-      ? { uri: `${EVENT_IMAGES_BASE}${selectedVenue.picture}` }
+      ? { uri: buildEventImageUrl(selectedVenue.picture) }
       : require("../../assets/images/icon.png");
     const canBook = Boolean(selectedDate && selectedDuration && selectedSlot && selectedSlot.available);
 

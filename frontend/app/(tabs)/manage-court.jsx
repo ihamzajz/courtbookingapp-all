@@ -22,6 +22,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import TopHeaderBox from "../../components/TopHeaderBox";
 import { COURTS_API, COURT_IMAGES_BASE } from "../../src/config/api";
 import { getStoredToken } from "../../src/utils/auth";
+import { buildUploadAssetUrl } from "../../src/utils/media";
 
 const CONTROL_HEIGHT = 48;
 const palette = {
@@ -243,7 +244,7 @@ export default function ManageCourt() {
 
   const courtImageUrl = (filename) => {
     if (!filename) return null;
-    return `${COURT_IMAGES_BASE}${filename}?v=${imageRefreshKey}`;
+    return buildUploadAssetUrl(COURT_IMAGES_BASE, filename, "courts", imageRefreshKey);
   };
 
   const existingEditingImage = editingCourt?.picture

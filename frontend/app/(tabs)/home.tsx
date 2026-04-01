@@ -18,6 +18,7 @@ import AppScreen from "../../components/AppScreen";
 import { SLIDES_API, SLIDE_IMAGES_BASE } from "../../src/config/api";
 import useLiveRefresh from "../../src/hooks/useLiveRefresh";
 import useRealtimeSubscription from "../../src/hooks/useRealtimeSubscription";
+import { buildUploadAssetUrl } from "../../src/utils/media";
 
 type MaterialIconName = React.ComponentProps<typeof MaterialIcons>["name"];
 type QuickAction = {
@@ -35,20 +36,7 @@ const palette = {
   card: "#FFFFFF",
 };
 
-const buildSlideImageUrl = (picture) => {
-  if (!picture) return null;
-  if (/^https?:\/\//i.test(picture)) return picture;
-
-  const normalizedBase = SLIDE_IMAGES_BASE.replace(/\/+$/, "");
-  const normalizedPicture = String(picture).replace(/^\/+/, "");
-
-  if (normalizedPicture.startsWith("uploads/slides/")) {
-    const baseWithoutUploads = normalizedBase.replace(/\/uploads\/slides$/i, "");
-    return `${baseWithoutUploads}/${normalizedPicture}`;
-  }
-
-  return `${normalizedBase}/${normalizedPicture}`;
-};
+const buildSlideImageUrl = (picture) => buildUploadAssetUrl(SLIDE_IMAGES_BASE, picture, "slides");
 
 export default function Home() {
   const tabBarHeight = useBottomTabBarHeight();

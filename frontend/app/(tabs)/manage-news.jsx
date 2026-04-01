@@ -22,6 +22,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import TopHeaderBox from "../../components/TopHeaderBox";
 import { NEWS_API, NEWS_IMAGES_BASE } from "../../src/config/api";
 import { getStoredToken } from "../../src/utils/auth";
+import { buildUploadAssetUrl } from "../../src/utils/media";
 
 const CONTROL_HEIGHT = 48;
 const palette = {
@@ -36,15 +37,8 @@ const palette = {
   success: "#198754",
 };
 
-const buildNewsImageUrl = (picture, cacheKey = "") => {
-  if (!picture) return null;
-  if (/^https?:\/\//i.test(picture)) return picture;
-
-  const normalizedBase = NEWS_IMAGES_BASE.replace(/\/+$/, "");
-  const normalizedPicture = String(picture).replace(/^\/+/, "");
-  const suffix = cacheKey ? `?v=${cacheKey}` : "";
-  return `${normalizedBase}/${normalizedPicture}${suffix}`;
-};
+const buildNewsImageUrl = (picture, cacheKey = "") =>
+  buildUploadAssetUrl(NEWS_IMAGES_BASE, picture, "news", cacheKey);
 
 const getUploadFileName = (asset) => {
   const providedName = asset?.fileName?.trim();

@@ -23,6 +23,7 @@ import { API_BASE, COURT_IMAGES_BASE } from "../../src/config/api";
 import useLiveRefresh from "../../src/hooks/useLiveRefresh";
 import useRealtimeSubscription from "../../src/hooks/useRealtimeSubscription";
 import { clearStoredUser, getStoredUser } from "../../src/utils/auth";
+import { buildUploadAssetUrl } from "../../src/utils/media";
 
 const palette = {
   bg: "#F5F7FC",
@@ -33,6 +34,8 @@ const palette = {
   navy: "#2B2D42",
   royal: "#2B2D42",
 };
+
+const buildCourtImageUrl = (picture) => buildUploadAssetUrl(COURT_IMAGES_BASE, picture, "courts");
 
 const durations = [30, 60, 90, 120, 150, 180, 210, 240];
 const MAX_BOOKING_PLAYERS = 4;
@@ -547,7 +550,7 @@ export default function CourtBooking() {
         <View style={styles.courtGrid}>
           {filteredCourts.map((court, index) => {
             const imageSource = court.picture
-              ? { uri: `${COURT_IMAGES_BASE}${court.picture}` }
+              ? { uri: buildCourtImageUrl(court.picture) }
               : require("../../assets/images/icon.png");
 
             return (
@@ -608,7 +611,7 @@ export default function CourtBooking() {
   const renderCourtDetail = () => {
     const selectedDateLabel = formatDateLabel(selectedDate);
     const heroImage = selectedCourt?.picture
-      ? { uri: `${COURT_IMAGES_BASE}${selectedCourt.picture}` }
+      ? { uri: buildCourtImageUrl(selectedCourt.picture) }
       : require("../../assets/images/icon.png");
     const canBook = Boolean(selectedDate && selectedDuration && selectedSlot && selectedSlot.available);
 

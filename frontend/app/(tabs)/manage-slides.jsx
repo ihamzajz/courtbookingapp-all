@@ -22,6 +22,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import TopHeaderBox from "../../components/TopHeaderBox";
 import { SLIDES_API, SLIDE_IMAGES_BASE } from "../../src/config/api";
 import { getStoredToken } from "../../src/utils/auth";
+import { buildUploadAssetUrl } from "../../src/utils/media";
 
 const CONTROL_HEIGHT = 48;
 const palette = {
@@ -37,21 +38,8 @@ const palette = {
   success: "#198754",
 };
 
-const buildSlideImageUrl = (picture, cacheKey = "") => {
-  if (!picture) return null;
-  if (/^https?:\/\//i.test(picture)) return picture;
-
-  const normalizedBase = SLIDE_IMAGES_BASE.replace(/\/+$/, "");
-  const normalizedPicture = String(picture).replace(/^\/+/, "");
-  const suffix = cacheKey ? `?v=${cacheKey}` : "";
-
-  if (normalizedPicture.startsWith("uploads/slides/")) {
-    const baseWithoutUploads = normalizedBase.replace(/\/uploads\/slides$/i, "");
-    return `${baseWithoutUploads}/${normalizedPicture}${suffix}`;
-  }
-
-  return `${normalizedBase}/${normalizedPicture}${suffix}`;
-};
+const buildSlideImageUrl = (picture, cacheKey = "") =>
+  buildUploadAssetUrl(SLIDE_IMAGES_BASE, picture, "slides", cacheKey);
 
 const getUploadFileName = (asset) => {
   const providedName = asset?.fileName?.trim();

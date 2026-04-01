@@ -22,6 +22,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import TopHeaderBox from "../../components/TopHeaderBox";
 import { EVENTS_API, EVENT_IMAGES_BASE } from "../../src/config/api";
 import { getStoredToken } from "../../src/utils/auth";
+import { buildUploadAssetUrl } from "../../src/utils/media";
 
 const CONTROL_HEIGHT = 48;
 const palette = {
@@ -243,7 +244,7 @@ export default function ManageEvent() {
 
   const venueImageUrl = (filename) => {
     if (!filename) return null;
-    return `${EVENT_IMAGES_BASE}${filename}?v=${imageRefreshKey}`;
+    return buildUploadAssetUrl(EVENT_IMAGES_BASE, filename, "events", imageRefreshKey);
   };
 
   const existingEditingImage = editingVenue?.picture
