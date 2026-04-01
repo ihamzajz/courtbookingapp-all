@@ -95,7 +95,7 @@ export default function SplashScreen() {
           style={styles.icon}
           resizeMode="contain"
         />
-        <Text style={styles.title}>BookFlow</Text>
+        <Text style={styles.title}>NNG Super App</Text>
       </Animated.View>
     </LinearGradient>
   );
@@ -160,10 +160,13 @@ const styles = StyleSheet.create({
   },
   title: {
     marginTop: 18,
-    fontSize: 46,
-    lineHeight: 52,
+    width: "100%",
+    maxWidth: 320,
+    fontSize: 38,
+    lineHeight: 44,
     color: "#173A7C",
     fontFamily: "Poppins_700Bold",
     letterSpacing: 0.3,
+    textAlign: "center",
   },
 });

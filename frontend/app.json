@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "BookFlow",
+    "name": "NNG Super App",
     "slug": "bookflow",
     "version": "1.0.0",
     "runtimeVersion": {
@@ -17,8 +17,8 @@
       "bundleIdentifier": "com.medicslabs.bookflow",
       "buildNumber": "1.0.0",
       "infoPlist": {
-        "NSPhotoLibraryUsageDescription": "BookFlow needs access to your photo library so admins can upload court, event, slide, and news images.",
-        "NSPhotoLibraryAddUsageDescription": "BookFlow may save selected images as part of admin media management."
+        "NSPhotoLibraryUsageDescription": "NNG Super App needs access to your photo library so admins can upload court, event, slide, and news images.",
+        "NSPhotoLibraryAddUsageDescription": "NNG Super App may save selected images as part of admin media management."
       }
     },
 
@@ -57,7 +57,7 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "BookFlow needs access to your photo library so admins can upload court, event, slide, and news images."
+          "photosPermission": "NNG Super App needs access to your photo library so admins can upload court, event, slide, and news images."
         }
       ],
       "@react-native-community/datetimepicker"
