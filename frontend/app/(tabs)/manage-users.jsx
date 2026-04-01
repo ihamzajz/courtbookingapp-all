@@ -62,18 +62,44 @@ export default function ManageUsers() {
   const [status, setStatus] = useState("inactive");
   const [canBook, setCanBook] = useState("no");
   const [feesStatus, setFeesStatus] = useState("paid");
+  const [authReady, setAuthReady] = useState(false);
 
   useEffect(() => {
-    getStoredToken().then(setToken);
-    getStoredUser().then(setCurrentUser);
+    Promise.all([getStoredToken(), getStoredUser()])
+      .then(([storedToken, storedUser]) => {
+        setToken(storedToken);
+        setCurrentUser(storedUser);
+      })
+      .finally(() => setAuthReady(true));
   }, []);
 
   useEffect(() => {
-    if (currentUser && currentUser.role !== "admin" && currentUser.role !== "superadmin") {
+    if (
+      authReady &&
+      currentUser &&
+      currentUser.role !== "admin" &&
+      currentUser.role !== "superadmin"
+    ) {
       Alert.alert("Access Denied", "Only admin can access manage users.");
       router.replace("/(tabs)/home");
     }
-  }, [currentUser]);
+  }, [authReady, currentUser]);
+
+  const requireToken = async () => {
+    const liveToken = await getStoredToken();
+
+    if (!liveToken) {
+      Alert.alert("Session expired", "Please log in again.");
+      router.replace("/login");
+      return null;
+    }
+
+    if (liveToken !== token) {
+      setToken(liveToken);
+    }
+
+    return liveToken;
+  };
 
   const filteredUsers = useMemo(() => {
     const value = search.trim().toLowerCase();
@@ -86,12 +112,17 @@ export default function ManageUsers() {
   }, [users, search]);
 
   const fetchUsers = async () => {
-    if (!token) return;
+    const liveToken = await getStoredToken();
+    if (!liveToken) return;
+
+    if (liveToken !== token) {
+      setToken(liveToken);
+    }
 
     try {
       setLoading(true);
       const res = await fetch(USERS_API, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${liveToken}` },
       });
       const data = await res.json().catch(() => ([]));
 
@@ -109,12 +140,17 @@ export default function ManageUsers() {
   };
 
   const fetchDeletionRequests = async () => {
-    if (!token) return;
+    const liveToken = await getStoredToken();
+    if (!liveToken) return;
+
+    if (liveToken !== token) {
+      setToken(liveToken);
+    }
 
     try {
       setLoadingDeletionRequests(true);
       const res = await fetch(`${COMPLIANCE_API}/account-deletion-requests?status=pending`, {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: { Authorization: `Bearer ${liveToken}` },
       });
       const data = await res.json().catch(() => ([]));
 
@@ -132,14 +168,13 @@ export default function ManageUsers() {
   };
 
   useEffect(() => {
+    if (!authReady || !token) return;
     fetchUsers();
     fetchDeletionRequests();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+  }, [authReady, token]);
 
   const processDeletionRequest = (requestItem, action) => {
-    if (!token) return;
-
     const actionLabel =
       action === "delete_user"
         ? "grant this deletion request and delete the linked account"
@@ -151,13 +186,16 @@ export default function ManageUsers() {
         text: "Confirm",
         style: action === "delete_user" ? "destructive" : "default",
         onPress: async () => {
+          const liveToken = await requireToken();
+          if (!liveToken) return;
+
           try {
             setProcessingRequestId(requestItem.id);
             const res = await fetch(`${COMPLIANCE_API}/account-deletion-requests/${requestItem.id}/process`, {
               method: "PUT",
               headers: {
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${liveToken}`,
               },
               body: JSON.stringify({ action }),
             });
@@ -249,7 +287,10 @@ export default function ManageUsers() {
   };
 
   const createUser = async () => {
-    if (!token || !validateForm()) return;
+    if (!validateForm()) return;
+
+    const liveToken = await requireToken();
+    if (!liveToken) return;
 
     try {
       setSaving(true);
@@ -257,7 +298,7 @@ export default function ManageUsers() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${liveToken}`,
         },
         body: JSON.stringify(buildPayload()),
       });
@@ -279,7 +320,10 @@ export default function ManageUsers() {
   };
 
   const updateUser = async () => {
-    if (!token || !editingUser?.id || !validateForm()) return;
+    if (!editingUser?.id || !validateForm()) return;
+
+    const liveToken = await requireToken();
+    if (!liveToken) return;
 
     try {
       setSaving(true);
@@ -287,7 +331,7 @@ export default function ManageUsers() {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${liveToken}`,
         },
         body: JSON.stringify(buildPayload()),
       });
@@ -309,8 +353,6 @@ export default function ManageUsers() {
   };
 
   const deleteUser = (id) => {
-    if (!token) return;
-
     if (Number(id) === Number(currentUser?.id)) {
       Alert.alert("Blocked", "You cannot delete your own account.");
       return;
@@ -322,10 +364,13 @@ export default function ManageUsers() {
         text: "Delete",
         style: "destructive",
         onPress: async () => {
+          const liveToken = await requireToken();
+          if (!liveToken) return;
+
           try {
             const res = await fetch(`${USERS_API}/${id}`, {
               method: "DELETE",
-              headers: { Authorization: `Bearer ${token}` },
+              headers: { Authorization: `Bearer ${liveToken}` },
             });
 
             const data = await res.json().catch(() => ({}));

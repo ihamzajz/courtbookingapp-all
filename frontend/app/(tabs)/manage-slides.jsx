@@ -124,6 +124,22 @@ export default function ManageSlides() {
     getStoredToken().then(setToken);
   }, []);
 
+  const requireToken = async () => {
+    const liveToken = await getStoredToken();
+
+    if (!liveToken) {
+      Alert.alert("Session expired", "Please log in again.");
+      router.replace("/login");
+      return null;
+    }
+
+    if (liveToken !== token) {
+      setToken(liveToken);
+    }
+
+    return liveToken;
+  };
+
   useEffect(() => {
     fetchSlides();
   }, [fetchSlides]);
@@ -180,6 +196,9 @@ export default function ManageSlides() {
       return;
     }
 
+    const liveToken = await requireToken();
+    if (!liveToken) return;
+
     setSaving(true);
     try {
       const endpoint = editingSlide ? `${SLIDES_API}/${editingSlide.id}` : SLIDES_API;
@@ -189,7 +208,7 @@ export default function ManageSlides() {
         method,
         headers: {
           Accept: "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${liveToken}`,
         },
         body: buildFormData(),
       });
@@ -217,12 +236,15 @@ export default function ManageSlides() {
         text: "Delete",
         style: "destructive",
         onPress: async () => {
+          const liveToken = await requireToken();
+          if (!liveToken) return;
+
           try {
             const res = await fetch(`${SLIDES_API}/${id}`, {
               method: "DELETE",
               headers: {
                 Accept: "application/json",
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${liveToken}`,
               },
             });
             const data = await parseApiResponse(res);
@@ -241,6 +263,9 @@ export default function ManageSlides() {
   };
 
   const reorderSlides = async (nextSlides) => {
+    const liveToken = await requireToken();
+    if (!liveToken) return;
+
     setSlides(nextSlides);
     setReordering(true);
 
@@ -250,7 +275,7 @@ export default function ManageSlides() {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${liveToken}`,
         },
         body: JSON.stringify({
           orderedIds: nextSlides.map((slide) => slide.id),
