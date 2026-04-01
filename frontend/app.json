@@ -1,0 +1,71 @@
+{
+  "expo": {
+    "name": "BookFlow",
+    "slug": "bookflow",
+    "version": "1.0.0",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "bookflow",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.medicslabs.bookflow",
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "BookFlow needs access to your photo library so admins can upload court, event, slide, and news images.",
+        "NSPhotoLibraryAddUsageDescription": "BookFlow may save selected images as part of admin media management."
+      }
+    },
+
+    "android": {
+      "package": "com.medicslabs.bookflow",
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "backgroundColor": "#E6F4FE",
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundImage": "./assets/images/icon.png",
+        "monochromeImage": "./assets/images/icon.png"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false
+    },
+
+    "web": {
+      "output": "static",
+      "favicon": "./assets/images/icon.png"
+    },
+
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-screen.png",
+          "imageWidth": 300,
+          "resizeMode": "contain",
+          "backgroundColor": "#F7FBFF",
+          "dark": {
+            "backgroundColor": "#F7FBFF"
+          }
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "BookFlow needs access to your photo library so admins can upload court, event, slide, and news images."
+        }
+      ],
+      "@react-native-community/datetimepicker"
+    ],
+
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    }
+  }
+}
