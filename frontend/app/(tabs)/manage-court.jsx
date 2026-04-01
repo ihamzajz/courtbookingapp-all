@@ -85,6 +85,22 @@ export default function ManageCourt() {
     fetchCourts();
   }, []);
 
+  const requireToken = async () => {
+    const liveToken = await getStoredToken();
+
+    if (!liveToken) {
+      Alert.alert("Session expired", "Please log in again.");
+      router.replace("/login");
+      return null;
+    }
+
+    if (liveToken !== token) {
+      setToken(liveToken);
+    }
+
+    return liveToken;
+  };
+
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -128,12 +144,15 @@ export default function ManageCourt() {
       return;
     }
 
+    const liveToken = await requireToken();
+    if (!liveToken) return;
+
     setSaving(true);
     try {
       const res = await fetch(COURTS_API, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${liveToken}`,
         },
         body: buildFormData(),
       });
@@ -163,12 +182,15 @@ export default function ManageCourt() {
       return;
     }
 
+    const liveToken = await requireToken();
+    if (!liveToken) return;
+
     setSaving(true);
     try {
       const res = await fetch(`${COURTS_API}/${editingCourt.id}`, {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${liveToken}`,
         },
         body: buildFormData(),
       });
@@ -197,11 +219,14 @@ export default function ManageCourt() {
         text: "Delete",
         style: "destructive",
         onPress: async () => {
+          const liveToken = await requireToken();
+          if (!liveToken) return;
+
           try {
             const res = await fetch(`${COURTS_API}/${id}`, {
               method: "DELETE",
               headers: {
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${liveToken}`,
               },
             });
 
