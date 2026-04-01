@@ -105,6 +105,21 @@ const isActiveBookingStatus = (status) => {
   return normalizedStatus !== "REJECTED" && normalizedStatus !== "CANCELLED";
 };
 
+const formatDurationLabel = (duration) => {
+  if (duration < 60) {
+    return `${duration} min`;
+  }
+
+  const hours = Math.floor(duration / 60);
+  const minutes = duration % 60;
+
+  if (minutes === 0) {
+    return `${hours} hr`;
+  }
+
+  return `${hours} hr ${minutes} min`;
+};
+
 export default function EventBooking() {
   const tabBarHeight = useBottomTabBarHeight();
   const insets = useSafeAreaInsets();
@@ -384,6 +399,8 @@ export default function EventBooking() {
     } catch (error) {
       if (error.response?.status === 409) {
         Alert.alert("Unavailable", "This slot is no longer available.");
+      } else if (error.response?.data?.message) {
+        Alert.alert("Booking Failed", error.response.data.message);
       } else {
         Alert.alert("Error", "Failed to create booking.");
       }
@@ -589,7 +606,7 @@ export default function EventBooking() {
                     onPress={() => setSelectedDuration(duration)}
                   >
                     <Text style={[styles.durationText, active && styles.durationTextActive]}>
-                      {duration} min
+                      {formatDurationLabel(duration)}
                     </Text>
                   </Pressable>
                 );
