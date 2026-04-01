@@ -99,7 +99,7 @@ export default function Register() {
       backgroundColor="#F5F8FC"
       barStyle="dark-content"
       keyboardAware
-      bottomOffset={16}
+      bottomOffset={12}
       horizontalPadding={18}
     >
       <View style={styles.container}>
@@ -268,24 +268,24 @@ const styles = StyleSheet.create({
   },
   hero: {
     paddingHorizontal: 18,
-    paddingTop: 18,
-    paddingBottom: 22,
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
-    marginBottom: 12,
+    paddingTop: 16,
+    paddingBottom: 18,
+    borderBottomLeftRadius: 22,
+    borderBottomRightRadius: 22,
+    marginBottom: 10,
   },
   header: {
     alignItems: "center",
   },
   title: {
-    fontSize: 26,
+    fontSize: 24,
     fontFamily: "Poppins_700Bold",
     color: "#FFFFFF",
     textAlign: "center",
   },
   subtitle: {
-    marginTop: 6,
-    fontSize: 12,
+    marginTop: 4,
+    fontSize: 11.5,
     fontFamily: "Poppins_500Medium",
     color: "rgba(255,255,255,0.78)",
     textAlign: "center",
@@ -295,7 +295,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#E2E8F0",
     borderRadius: 18,
-    padding: 15,
+    padding: 13,
     shadowColor: "#0F172A",
     shadowOpacity: 0.05,
     shadowRadius: 16,
@@ -309,15 +309,15 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255, 232, 230, 0.95)",
     borderWidth: 1,
     borderColor: "#FDA29B",
-    paddingVertical: 10,
+    paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 14,
-    marginBottom: 12,
+    marginBottom: 10,
   },
   errorText: {
     color: "#7A271A",
     fontFamily: "Poppins_600SemiBold",
-    fontSize: 12.5,
+    fontSize: 12,
     flex: 1,
   },
   successBox: {
@@ -327,15 +327,15 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(236, 253, 243, 0.95)",
     borderWidth: 1,
     borderColor: "#A6F4C5",
-    paddingVertical: 10,
+    paddingVertical: 8,
     paddingHorizontal: 12,
     borderRadius: 14,
-    marginBottom: 12,
+    marginBottom: 10,
   },
   successText: {
     color: "#027A48",
     fontFamily: "Poppins_700Bold",
-    fontSize: 12.5,
+    fontSize: 12,
     flex: 1,
   },
   field: {
@@ -346,14 +346,14 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     backgroundColor: "#F8FAFC",
     paddingHorizontal: 12,
-    paddingVertical: 11,
-    marginBottom: 10,
+    paddingVertical: 10,
+    marginBottom: 8,
   },
   fieldLabel: {
     color: "#334155",
     fontFamily: "Poppins_600SemiBold",
-    fontSize: 12,
-    marginBottom: 6,
+    fontSize: 11.5,
+    marginBottom: 5,
   },
   fieldIcon: {
     width: 30,
@@ -363,7 +363,7 @@ const styles = StyleSheet.create({
     flex: 1,
     color: "#0F172A",
     fontFamily: "Poppins_500Medium",
-    fontSize: 13,
+    fontSize: 12.5,
     paddingVertical: 0,
   },
   rightIcon: {
@@ -371,10 +371,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   primaryBtn: {
-    marginTop: 6,
+    marginTop: 4,
     backgroundColor: "#1D4ED8",
     borderRadius: 14,
-    paddingVertical: 12,
+    paddingVertical: 11,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -393,36 +393,36 @@ const styles = StyleSheet.create({
   primaryBtnText: {
     color: "#FFFFFF",
     fontFamily: "Poppins_700Bold",
-    fontSize: 14,
+    fontSize: 13.5,
   },
   secondaryBtn: {
-    marginTop: 10,
-    paddingVertical: 8,
+    marginTop: 8,
+    paddingVertical: 6,
     alignItems: "center",
   },
   secondaryBtnText: {
     color: "#64748B",
     fontFamily: "Poppins_500Medium",
-    fontSize: 12.5,
+    fontSize: 12,
   },
   link: {
     color: "#1D4ED8",
     fontFamily: "Poppins_700Bold",
   },
   footerHint: {
-    marginTop: 10,
+    marginTop: 8,
     textAlign: "center",
     color: "#64748B",
     fontFamily: "Poppins_500Medium",
-    fontSize: 11.5,
+    fontSize: 11,
   },
   policyLinkWrap: {
-    marginTop: 8,
+    marginTop: 6,
     alignItems: "center",
   },
   policyLinkText: {
     color: "#1D4ED8",
     fontFamily: "Poppins_700Bold",
-    fontSize: 11.5,
+    fontSize: 11,
   },
 });
